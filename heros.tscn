@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dabpdn4jbelvi"]
+[gd_scene load_steps=45 format=3 uid="uid://br8hvdbtg4p6d"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_t34xy"]
 [ext_resource type="Texture2D" uid="uid://8wa7up0uhn7c" path="res://Asset/mochi_attack_1.png" id="2_jnqra"]
@@ -195,6 +195,22 @@ tracks/0/keys = {
 "values": [Vector2(4, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_2v11b"]
+resource_name = "ReverseSauter"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area2D/CollisionShape2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3, 1), Vector2(20, 1), Vector2(18, -17), Vector2(3, -21), Vector2(-13, -17), Vector2(-16, -1), Vector2(-8, -1), Vector2(3, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_n5nuq"]
 resource_name = "attack"
 length = 0.6
@@ -241,22 +257,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(4, 0), Vector2(-11, 2), Vector2(-9, -12), Vector2(5, -18), Vector2(16, -13), Vector2(18, 1), Vector2(18, 13), Vector2(3, 0), Vector2(3, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_2v11b"]
-resource_name = "ReverseSauter"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Area2D/CollisionShape2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(3, 1), Vector2(20, 1), Vector2(18, -17), Vector2(3, -21), Vector2(-13, -17), Vector2(-16, -1), Vector2(-8, -1), Vector2(3, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_80tii"]

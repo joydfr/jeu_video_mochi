@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://nffnak8ffm0k" path="res://Asset/cake_valley_strawberry-cake.png" id="4_prgrb"]
 [ext_resource type="Texture2D" uid="uid://cd2jfygd2xkob" path="res://Asset/cake_valley_cotton-candy-middle.png" id="5_44slf"]
 [ext_resource type="Texture2D" uid="uid://dwa5k4r3n52um" path="res://Asset/cake_valley_strawberry-cake-castle.png" id="10_j0ibj"]
-[ext_resource type="PackedScene" uid="uid://dabpdn4jbelvi" path="res://heros.tscn" id="11_fe81g"]
+[ext_resource type="PackedScene" uid="uid://br8hvdbtg4p6d" path="res://heros.tscn" id="11_fe81g"]
 [ext_resource type="Texture2D" uid="uid://b6gmicrrggur2" path="res://Asset/cake_valley_lemon-cake.png" id="11_yj4dx"]
 [ext_resource type="Texture2D" uid="uid://c6jmthxevxdg8" path="res://Asset/cake_valley_cupcake.png" id="16_irscu"]
 [ext_resource type="PackedScene" uid="uid://bmp57efao7sf3" path="res://Enemy.tscn" id="19_65jym"]
