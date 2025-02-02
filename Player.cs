@@ -7,14 +7,26 @@ public partial class Player : CharacterBody2D
 	public const float JumpVelocity = -250.0f; // saut 
 	public int jump_Count = 0; //compteur des saut
 	private AnimatedSprite2D charAnim;
-	public int Health = 100;
-	 public HUD hud;
+	public int MaxHealth = 100;
+	public int Health;
+	private Lifebar lifebar;
+	 
 	
  public override void _Ready()
 	{
 		charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
-		
+		Health = MaxHealth; 
+		 lifebar = GetNode<Lifebar>("../CanvasLayer/HUD"); // Ajustez le chemin selon votre structure
+	
+	if (lifebar != null)
+	{
+		lifebar.MaxValue = MaxHealth;
+		lifebar.Value = Health;
+	}
+	else
+	{
+		GD.PrintErr("❌ Lifebar non trouvée !");
+	}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -97,16 +109,16 @@ public partial class Player : CharacterBody2D
 	Health -= amount;
 	charAnim.Play("Hurt");
 	GD.Print("Le joueur a été touché ! PV restants : " + Health);
-
-	if (hud != null)
+	
+	if (lifebar != null)
 	{
-		hud.UpdateHealth(Health);
+		lifebar.UpdateHealth(Health);
 	}
 	else
 	{
-		GD.PrintErr("❌ Impossible de mettre à jour la barre de vie, HUD non trouvé !");
+		GD.PrintErr("❌ Impossible de mettre à jour la barre de vie, Lifebar non trouvée !");
 	}
-
+	
 	if (Health <= 0)
 	{
 		GD.Print("Le joueur est mort !");

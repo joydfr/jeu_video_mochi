@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cl0jbpqbq1j0o"]
+[gd_scene load_steps=43 format=3 uid="uid://cl0jbpqbq1j0o"]
 
 [ext_resource type="Script" path="res://Level.cs" id="1_k1gk8"]
 [ext_resource type="Texture2D" uid="uid://c8v466pd6jmhg" path="res://Tiles/Backgrounds/tile_0019.png" id="1_y5ftf"]
@@ -21,7 +21,6 @@
 [ext_resource type="PackedScene" uid="uid://6ptpvx8lmil" path="res://Enemy.tscn" id="19_3q0uj"]
 [ext_resource type="PackedScene" uid="uid://cei6v41pa4uvn" path="res://Player.tscn" id="20_6ikpc"]
 [ext_resource type="PackedScene" uid="uid://duwrtydw68cxv" path="res://hud.tscn" id="21_we44g"]
-[ext_resource type="Script" path="res://Hud.cs" id="22_ca3nb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eiprg"]
 texture = ExtResource("3_clkxa")
@@ -4792,14 +4791,13 @@ position = Vector2(83, 95)
 position = Vector2(-23, -6)
 
 [node name="Player" parent="." instance=ExtResource("20_6ikpc")]
-position = Vector2(-67, 117)
+position = Vector2(-73, 124)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("21_we44g")]
 offset_top = 2.0
 offset_bottom = 2.0
-script = ExtResource("22_ca3nb")
 
 [node name="SpikesArea" type="Area2D" parent="."]
 collision_layer = 2

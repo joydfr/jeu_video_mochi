@@ -143,7 +143,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xut25"]
 radius = 8.0
-height = 22.0
+height = 26.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(7, 6)
@@ -152,14 +152,14 @@ script = ExtResource("1_x50w5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(168, 284)
-scale = Vector2(0.655072, 0.621739)
+position = Vector2(173.259, 277.974)
+scale = Vector2(0.983786, 0.99837)
 sprite_frames = SubResource("SpriteFrames_37vk8")
 animation = &"Hurt"
-frame_progress = 0.949087
+frame_progress = 0.447725
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(167, 286)
+position = Vector2(175, 279)
 shape = SubResource("CapsuleShape2D_xut25")
 
 [node name="Camera2D" type="Camera2D" parent="."]
