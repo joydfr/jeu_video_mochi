@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [gd_scene load_steps=16 format=3 uid="uid://6ptpvx8lmil"]
+=======
+[gd_scene load_steps=17 format=3 uid="uid://6ptpvx8lmil"]
+>>>>>>> 3d7d650a8e8e237b85d41046bbd3a41517fc5efa
 
 [ext_resource type="Script" path="res://Enemy.cs" id="1_socjg"]
 [ext_resource type="Texture2D" uid="uid://d1ndd0ekfop3u" path="res://personnage jeu/2 Dog 2/Idle.png" id="2_t3oqi"]
@@ -143,6 +147,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3o1jc"]
 size = Vector2(16, 9)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6imm0"]
+radius = 5.0
+
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 3
@@ -156,7 +163,7 @@ animation = &"Idle"
 frame_progress = 0.955664
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(84, 99)
+position = Vector2(85, 107)
 shape = SubResource("RectangleShape2D_3o1jc")
 
 [node name="PointB" type="Marker2D" parent="."]
@@ -164,6 +171,7 @@ position = Vector2(118, 100)
 
 [node name="PointA" type="Marker2D" parent="."]
 position = Vector2(50, 100)
+<<<<<<< HEAD
 =======
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qg4kk"]
 size = Vector2(33, 22.75)
@@ -216,3 +224,9 @@ position = Vector2(-40, -35)
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Attaque" to="." method="AttaqueChien"]
 >>>>>>> Feature/Niveau1
+=======
+
+[node name="Died" type="CollisionShape2D" parent="."]
+position = Vector2(84, 96)
+shape = SubResource("CircleShape2D_6imm0")
+>>>>>>> 3d7d650a8e8e237b85d41046bbd3a41517fc5efa
