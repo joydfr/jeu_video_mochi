@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://d2dt6ruv7p4wv" path="res://kenney_platformer-art-winter/Tiles/tundraHalfLeft.png" id="16_tc70w"]
 [ext_resource type="Texture2D" uid="uid://c6b43ro7ee50k" path="res://kenney_platformer-art-winter/Tiles/tundraHalfRight.png" id="17_jxbos"]
 [ext_resource type="Texture2D" uid="uid://ccw4y81jch0do" path="res://kenney_platformer-art-winter/Tiles/tundraHalfMid.png" id="18_3ayeg"]
-[ext_resource type="PackedScene" uid="uid://6ptpvx8lmil" path="res://Enemy.tscn" id="19_3q0uj"]
+[ext_resource type="PackedScene" uid="uid://cv3gisk0ah66d" path="res://Enemy.tscn" id="19_3q0uj"]
 [ext_resource type="PackedScene" uid="uid://cei6v41pa4uvn" path="res://Player.tscn" id="20_6ikpc"]
 [ext_resource type="PackedScene" uid="uid://duwrtydw68cxv" path="res://hud.tscn" id="21_we44g"]
 

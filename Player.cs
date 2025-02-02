@@ -1,261 +1,125 @@
+code ennemie
 using Godot;
 using System;
 
-
-
-public partial class Player : CharacterBody2D
+public partial class Enemy : CharacterBody2D
 {
-
-	public const float Speed = 250.0f; // vitesse 
-	public const float JumpVelocity = -250.0f; // saut 
-	public int jump_Count = 0; //compteur des saut
+	[Export] public float detectionRange = 300.0f;
+	public const float Speed = 150.0f;
+	public const float Gravity = 980.0f;
 	private AnimatedSprite2D charAnim;
-	public int MaxHealth = 100;
-	public int Health;
-	private Lifebar lifebar;
-	 
+	private CharacterBody2D player;
+	private Vector2 pointA;
+	private Vector2 pointB;
+	private bool movingToA = true;
+	private bool playerWasDetected = false;
+	private bool isDead = false;
 	
- public override void _Ready()
-	{
-		charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		Health = MaxHealth; 
-		 lifebar = GetNode<Lifebar>("../CanvasLayer/HUD"); // Ajustez le chemin selon votre structure
-	
-	if (lifebar != null)
-	{
-		lifebar.MaxValue = MaxHealth;
-		lifebar.Value = Health;
-	}
-	else
-	{
-		GD.PrintErr("❌ Lifebar non trouvée !");
-	}
-	}
+	// Collision pour détecter si le joueur saute sur l'ennemi
+	private Area2D deathArea;
 
-	public override void _PhysicsProcess(double delta)
-	{ 
-
-		Vector2 velocity = Velocity;
-		// La gravité si le personnage est dans les air
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
-		
-		// Gestion du saut limité a 1 car comence a 0 qui permet un double jump
-		if (Input.IsActionJustPressed("ui_accept") && jump_Count < 1)
-		{
-			velocity.Y = JumpVelocity;
-			jump_Count++;
-			//Animation jump
-			charAnim.Play("jump");
-		}
-		// Réinitialiser le compteur de sauts si le personnage touche le sol
-		if (IsOnFloor())
-		{
-			jump_Count = 0;
-		}
-
-		// Flip l'animation selon la direction (gauche/droite).
-		if (velocity.X != 0)
-		{
-			charAnim.FlipH = velocity.X < 0; // Inverser l'animation si on va à gauche
-		}
-
-	// la direction du personnage 
- Vector2 direction = new Vector2(
-	Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
-	Input.GetActionStrength("ui_down") - Input.GetActionStrength("ui_up")
-);
-	  bool isAttacking = true;
-	  isAttacking = charAnim.Animation == "attack";
-
-		// Si le personnage n'est pas en train d'attaquer
-		 if (!isAttacking)
-		 {
-		 if (direction != Vector2.Zero)
-		  {
-		// Ajuster la vitesse en X et Y pour le mouvement
-		velocity.X = direction.X * Speed;
-		
-		// la marche 
-		charAnim.Play("walk");
-		 }
-		else
-		{
-		// permet l'arret du déplacement
-		velocity.X = Mathf.MoveToward(velocity.X, 0, Speed);
-
-
-		// si le personnage est a l'arret lance l'animation iddle 
-		if (IsOnFloor() && velocity.X == 0 && velocity.Y == 0)
-		{
-			charAnim.Play("iddle");
-		}
-	}
-}
-
-// l'attaque 
-	  if (Input.IsActionJustPressed("attack") && !isAttacking)
-	  {
-		charAnim.Play("attack");
-		isAttacking = false;
-	 }
-
-
-		// Met à jour la vélocité et applique le mouvement.
-		Velocity = velocity;
-		MoveAndSlide();
-	}
-	public void TakeDamage(int amount)
-{
-	Health -= amount;
-	charAnim.Play("Hurt");
-	GD.Print("Le joueur a été touché ! PV restants : " + Health);
-	
-	if (lifebar != null)
-	{
-		lifebar.UpdateHealth(Health);
-	}
-	else
-	{
-		GD.PrintErr("❌ Impossible de mettre à jour la barre de vie, Lifebar non trouvée !");
-	}
-	
-	if (Health <= 0)
-	{
-		GD.Print("Le joueur est mort !");
-		QueueFree();
-	}
-
-	public const float Speed = 250.0f; // vitesse 
-	public const float JumpVelocity = -250.0f; // saut 
-	public int jump_Count = 0; //compteur des saut
-	private AnimatedSprite2D charAnim;
-	private AnimationPlayer animPlayer;
-
-
-	public void Death()
-	{
-		GD.Print("Le personnage est mort et sera supprimé.");
-		QueueFree();
-	}
-
-
-
-	public static void AttaqueGriffe(Node body)
-	{
-		// si le chien entre dans cette zone il meurt
-		if (body is Doggy doggy) // Vérifie si le corps est de type Doggy
-		{
-			doggy.QueueFree();
-			GD.Print("Le chien est mort");
-		}
-	}
-
+	// Timer pour gérer la suppression après l'animation
+	private Timer deathTimer;
 
 	public override void _Ready()
 	{
 		charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-	}
+		player = GetNode<CharacterBody2D>("../Player");
 
+		var markerA = GetNodeOrNull<Marker2D>("PointA");
+		var markerB = GetNodeOrNull<Marker2D>("PointB");
+
+		if (markerA != null && markerB != null)
+		{
+			pointA = new Vector2(markerA.GlobalPosition.X, GlobalPosition.Y);
+			pointB = new Vector2(markerB.GlobalPosition.X, GlobalPosition.Y);
+		}
+
+		// Initialisation de la zone de mort (collision) avec le nom "Died"
+		deathArea = GetNode<Area2D>("Died");
+		deathArea.BodyEntered += OnPlayerJumpOnEnemy;
+
+		// Initialisation du timer pour la suppression après l'animation
+		deathTimer = new Timer();
+		deathTimer.OneShot = true;  // Il ne s'exécutera qu'une seule fois
+		deathTimer.WaitTime = 1.0f; // Durée d'attente (en secondes) avant de supprimer l'ennemi
+		AddChild(deathTimer);  // Ajouter le Timer à la scène
+		deathTimer.Timeout += OnDeathTimerTimeout; // Lier l'événement Timeout
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
 
-		// La gravité si le personnage est dans les air
-		if (!IsOnFloor())
+		if (!isDead)
 		{
-			velocity += GetGravity() * (float)delta;
-		}
-
-		// Gestion du saut limité a 1 car comence a 0 qui permet un double jump
-		if (Input.IsActionJustPressed("ui_accept") && jump_Count < 1)
-		{
-			velocity.Y = JumpVelocity;
-			jump_Count++;
-			//Animation jump
-			charAnim.Play("jump");
-		}
-		// Réinitialiser le compteur de sauts si le personnage touche le sol
-		if (IsOnFloor())
-		{
-			jump_Count = 0;
-		}
-
-		// Flip l'animation selon la direction (gauche/droite).
-		if (velocity.X != 0)
-		{
-			charAnim.FlipH = velocity.X < 0; // Inverser l'animation si on va à gauche
-		}
-
-
-		// la direction du personnage 
-		Vector2 direction = new Vector2(
-		   Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
-		   Input.GetActionStrength("ui_down") - Input.GetActionStrength("ui_up")
-	   );
-		bool isAttacking = true;
-		isAttacking = charAnim.Animation == "attack";
-
-		// Si le personnage n'est pas en train d'attaquer
-		if (!isAttacking)
-		{
-			if (direction != Vector2.Zero)
+			// Appliquer la gravité
+			if (!IsOnFloor())
 			{
-				// Ajuster la vitesse en X et Y pour le mouvement
-				velocity.X = direction.X * Speed;
-
-				// la marche 
-				charAnim.Play("walk");
+				velocity.Y += Gravity * (float)delta;
 			}
 			else
 			{
-				// permet l'arret du déplacement
-				velocity.X = Mathf.MoveToward(velocity.X, 0, Speed);
+				velocity.Y = 0;
+			}
 
-				// si le personnage est a l'arret lance l'animation iddle 
-				if (IsOnFloor() && velocity.X == 0 && velocity.Y == 0)
+			if (player != null)
+			{
+				float distanceToPlayer = GlobalPosition.DistanceTo(player.GlobalPosition);
+				float heightDifference = Mathf.Abs(player.GlobalPosition.Y - GlobalPosition.Y);
+
+				bool isPlayerInVerticalRange = heightDifference < 200;
+				bool isPlayerInHorizontalRange = Mathf.Abs(player.GlobalPosition.X - GlobalPosition.X) < detectionRange;
+
+				if (isPlayerInVerticalRange && isPlayerInHorizontalRange)
 				{
-					charAnim.Play("idle");
+					playerWasDetected = true;
+					float direction = Mathf.Sign(player.GlobalPosition.X - GlobalPosition.X);
+					velocity.X = direction * Speed;
+
+					charAnim.Play("walk");
+					charAnim.SpeedScale = 2.0f;
+					charAnim.FlipH = velocity.X < 0;
+				}
+				else if (playerWasDetected && !isPlayerInHorizontalRange)
+				{
+					playerWasDetected = false;
+					velocity.X = 0;
+					charAnim.Play("Idle");
+					charAnim.SpeedScale = 1.0f;
+				}
+				else
+				{
+					velocity.X = 0;
+					charAnim.Play("Idle");
+					charAnim.SpeedScale = 1.0f;
 				}
 			}
 		}
-		if (!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
-		{
-			charAnim.Play("attackSauter");
-			if (charAnim.FlipH == false)
-			{
-				GetNode<AnimationPlayer>("AnimationPlayer").Play("attaqueSauter");
-			}
-			else
-			{
-				GetNode<AnimationPlayer>("AnimationPlayer").Play("ReverseSauter");
-			}
-		}
-		// l'attaque 
-		if (Input.IsActionJustPressed("attack"))
-		{
-			charAnim.Play("attack");
-			if (charAnim.FlipH == false)
-			{
-				animPlayer.Play("attack");
-			}
-			else
-			{
-				animPlayer.Play("attackGauche");
-			}
 
-			isAttacking = false;
-		}
-
-		// Met à jour la vélocité et applique le mouvement.
 		Velocity = velocity;
 		MoveAndSlide();
 	}
 
+	// Fonction pour gérer l'impact lorsque le joueur saute sur l'ennemi
+	private void OnPlayerJumpOnEnemy(Node body)
+	{
+		if (body is CharacterBody2D && !isDead)
+		{
+			// Vérifier que le joueur tombe sur l'ennemi (direction de la vitesse Y)
+			CharacterBody2D player = body as CharacterBody2D;
+			if (player.Velocity.Y > 0) // Le joueur tombe
+			{
+				// L'ennemi meurt
+				isDead = true;
+				charAnim.Play("Died"); // Si vous avez une animation de mort
+				deathTimer.Start();  // Démarrer le timer avant de supprimer l'ennemi
+			}
+		}
+	}
 
-}
-}
+	// Lorsque le timer expire, supprimer l'ennemi
+	private void OnDeathTimerTimeout()
+	{
+		QueueFree();  // Supprimer l'ennemi de la scène après le délai
+	}
