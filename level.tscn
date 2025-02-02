@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cl0jbpqbq1j0o"]
+[gd_scene load_steps=43 format=3 uid="uid://cl0jbpqbq1j0o"]
 
 [ext_resource type="Script" path="res://Level.cs" id="1_k1gk8"]
 [ext_resource type="Texture2D" uid="uid://c8v466pd6jmhg" path="res://Tiles/Backgrounds/tile_0019.png" id="1_y5ftf"]
@@ -18,8 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://d2dt6ruv7p4wv" path="res://kenney_platformer-art-winter/Tiles/tundraHalfLeft.png" id="16_tc70w"]
 [ext_resource type="Texture2D" uid="uid://c6b43ro7ee50k" path="res://kenney_platformer-art-winter/Tiles/tundraHalfRight.png" id="17_jxbos"]
 [ext_resource type="Texture2D" uid="uid://ccw4y81jch0do" path="res://kenney_platformer-art-winter/Tiles/tundraHalfMid.png" id="18_3ayeg"]
-[ext_resource type="PackedScene" uid="uid://6ptpvx8lmil" path="res://Enemy.tscn" id="19_3q0uj"]
+[ext_resource type="PackedScene" uid="uid://cv3gisk0ah66d" path="res://Enemy.tscn" id="19_3q0uj"]
 [ext_resource type="PackedScene" uid="uid://cei6v41pa4uvn" path="res://Player.tscn" id="20_6ikpc"]
+[ext_resource type="PackedScene" uid="uid://duwrtydw68cxv" path="res://hud.tscn" id="21_we44g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eiprg"]
 texture = ExtResource("3_clkxa")
@@ -4313,9 +4314,6 @@ sources/6 = SubResource("TileSetAtlasSource_2p3o4")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p3p4i"]
 size = Vector2(90, 18.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rh2f1"]
-size = Vector2(34, 28)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_45fr7"]
 size = Vector2(54, 19)
 
@@ -4535,12 +4533,30 @@ _data = {
 "droitegauche": SubResource("Animation_00wim")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq6p2"]
+size = Vector2(107, 34.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ksg2p"]
+size = Vector2(235, 35.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqx61"]
+size = Vector2(152.5, 39.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ytpqc"]
+size = Vector2(55, 39.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rh2f1"]
+size = Vector2(34, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w80vx"]
+size = Vector2(169, 43)
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_k1gk8")
 
 [node name="Tile0019" type="Sprite2D" parent="."]
-position = Vector2(2073, 364)
-scale = Vector2(199.511, 33.6875)
+position = Vector2(2324, 317)
+scale = Vector2(195, 33.2604)
 texture = ExtResource("1_y5ftf")
 
 [node name="Tile0000" type="Sprite2D" parent="Tile0019"]
@@ -4599,10 +4615,6 @@ texture = ExtResource("13_l1s1d")
 position = Vector2(2795, -39)
 scale = Vector2(0.464285, 0.378571)
 texture = ExtResource("14_rf7ta")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="danger"]
-position = Vector2(2795, -54)
-shape = SubResource("RectangleShape2D_rh2f1")
 
 [node name="platerform trois" type="AnimatableBody2D" parent="."]
 position = Vector2(-250, 0)
@@ -4772,7 +4784,48 @@ position = Vector2(111, 103)
 [node name="PointA" parent="Enemy" index="3"]
 position = Vector2(12, 102)
 
+[node name="Died" parent="Enemy" index="4"]
+position = Vector2(83, 95)
+
+[node name="Died" parent="Enemy/Died" index="0"]
+position = Vector2(-23, -6)
+
 [node name="Player" parent="." instance=ExtResource("20_6ikpc")]
-position = Vector2(-67, 117)
+position = Vector2(-73, 124)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("21_we44g")]
+offset_top = 2.0
+offset_bottom = 2.0
+
+[node name="SpikesArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="Piques1" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(517.5, 321.75)
+shape = SubResource("RectangleShape2D_qq6p2")
+
+[node name="piques2" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(1653, 162.375)
+shape = SubResource("RectangleShape2D_ksg2p")
+
+[node name="piques3" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(1535.75, 347.75)
+shape = SubResource("RectangleShape2D_lqx61")
+
+[node name="piques4" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(1867.5, 348.625)
+shape = SubResource("RectangleShape2D_ytpqc")
+
+[node name="piquesAscenceur" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(2796, -53)
+shape = SubResource("RectangleShape2D_rh2f1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikesArea"]
+position = Vector2(2788.5, 412.5)
+shape = SubResource("RectangleShape2D_w80vx")
+
+[connection signal="body_entered" from="SpikesArea" to="." method="OnPlayerTouchSpikes"]
 
 [editable path="Enemy"]

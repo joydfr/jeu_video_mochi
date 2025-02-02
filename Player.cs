@@ -1,16 +1,20 @@
+
 using Godot;
 using System;
 
-
-
 public partial class Player : CharacterBody2D
 {
+
     public const float Speed = 250.0f; // vitesse 
     public const float JumpVelocity = -250.0f; // saut 
     public int life = 100;
     public int jump_Count = 0; //compteur des saut
     private AnimatedSprite2D charAnim;
     private AnimationPlayer animPlayer;
+
+
+
+	// Timer pour gérer la suppression après l'animation
 
 
     public void Death()
@@ -22,19 +26,6 @@ public partial class Player : CharacterBody2D
         }
     }
 
-
-
-    public static void AttaqueGriffe(Node body)
-    {
-        // si le chien entre dans cette zone il meurt
-        if (body is Doggy doggy) // Vérifie si le corps est de type Doggy
-        {
-            doggy.QueueFree();
-            GD.Print("Le chien est mort");
-        }
-    }
-
-
     public override void _Ready()
     {
         charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -42,8 +33,8 @@ public partial class Player : CharacterBody2D
         Death();
     }
 
-
-    public override void _PhysicsProcess(double delta)
+	
+        public override void _PhysicsProcess(double delta)
     {
         Vector2 velocity = Velocity;
 
@@ -105,8 +96,7 @@ public partial class Player : CharacterBody2D
                 }
             }
         }
-
-        if(!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
+        if (!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
         {
             charAnim.Play("attackSauter");
             if (charAnim.FlipH == false)
@@ -130,11 +120,14 @@ public partial class Player : CharacterBody2D
             {
                 animPlayer.Play("attackGauche");
             }
+
+            isAttacking = false;
         }
 
         // Met à jour la vélocité et applique le mouvement.
         Velocity = velocity;
         MoveAndSlide();
     }
+    }
 
-}
+
