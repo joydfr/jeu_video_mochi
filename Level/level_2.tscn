@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://wirej7uji8lb"]
+[gd_scene load_steps=22 format=4 uid="uid://wirej7uji8lb"]
 
 [ext_resource type="Texture2D" uid="uid://c27pqury2r4m8" path="res://Asset/tilemap.png" id="1_g7xxi"]
 [ext_resource type="Script" path="res://Level/Level2.cs" id="1_iwabm"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://br8hvdbtg4p6d" path="res://heros.tscn" id="11_fe81g"]
 [ext_resource type="Texture2D" uid="uid://b6gmicrrggur2" path="res://Asset/cake_valley_lemon-cake.png" id="11_yj4dx"]
 [ext_resource type="Texture2D" uid="uid://c6jmthxevxdg8" path="res://Asset/cake_valley_cupcake.png" id="16_irscu"]
-[ext_resource type="PackedScene" uid="uid://bmp57efao7sf3" path="res://Enemy.tscn" id="19_65jym"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lpm4t"]
 texture = ExtResource("1_g7xxi")
@@ -1019,25 +1018,15 @@ libraries = {
 [node name="Heros" parent="." instance=ExtResource("11_fe81g")]
 position = Vector2(102, 249)
 
-[node name="Doggy" parent="." instance=ExtResource("19_65jym")]
+[node name="Doggy" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(264, 281)
-
-[node name="AnimatedSprite2D" parent="Doggy" index="0"]
-position = Vector2(106, -40)
-
-[node name="CollisionShape2D" parent="Doggy" index="1"]
-position = Vector2(102.5, -29)
-
-[node name="CollisionShape2D" parent="Doggy/Area2D" index="0"]
-position = Vector2(101, -39)
-
-[node name="CollisionShape2D" parent="Doggy/Attaque" index="0"]
-position = Vector2(119, -31)
-
-[node name="PointA" parent="Doggy" index="4"]
-position = Vector2(184, -24)
-
-[node name="PointB" parent="Doggy" index="5"]
-position = Vector2(-153, -26)
-
-[editable path="Doggy"]
+script = null
