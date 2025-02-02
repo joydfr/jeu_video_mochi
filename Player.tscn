@@ -1,0 +1,136 @@
+[gd_scene load_steps=23 format=3 uid="uid://cei6v41pa4uvn"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_x50w5"]
+[ext_resource type="Texture2D" uid="uid://di7q1vqa0tkt4" path="res://personnage jeu/mochi_attack/mochi_attack_1.png" id="2_jir8o"]
+[ext_resource type="Texture2D" uid="uid://dts0pohko0l28" path="res://personnage jeu/mochi_attack/mochi_attack_2.png" id="3_2g5da"]
+[ext_resource type="Texture2D" uid="uid://d2sw43xoy008a" path="res://personnage jeu/mochi_attack/mochi_attack_3.png" id="4_uu1kr"]
+[ext_resource type="Texture2D" uid="uid://cixt07hrwnljn" path="res://personnage jeu/mochi_attack/mochi_attack_4.png" id="5_ut24l"]
+[ext_resource type="Texture2D" uid="uid://do5wko6g5k8t1" path="res://personnage jeu/mochi_attack/mochi_attack_5.png" id="6_1w5r4"]
+[ext_resource type="Texture2D" uid="uid://ccvg2a425rpie" path="res://personnage jeu/mochi_attack/mochi_attack_7.png" id="7_8slye"]
+[ext_resource type="Texture2D" uid="uid://kayy0m2suut3" path="res://personnage jeu/mochi_attack/mochi_attack_6.png" id="8_u6agg"]
+[ext_resource type="Texture2D" uid="uid://cci7vwb1mi6i7" path="res://personnage jeu/mochi_jump/mochi_fall_jump.png" id="9_itjbw"]
+[ext_resource type="Texture2D" uid="uid://b4xg8jmt5lll7" path="res://personnage jeu/mochicat_crouch.png" id="10_wato5"]
+[ext_resource type="Texture2D" uid="uid://c1485nstnlaxp" path="res://personnage jeu/mochi_down.png" id="11_0q0u5"]
+[ext_resource type="Texture2D" uid="uid://cjvku2o8k76tt" path="res://personnage jeu/mochi_iddle/mochicat_idle_sprite.png" id="12_yibwb"]
+[ext_resource type="Texture2D" uid="uid://dfsw80wmpvy35" path="res://personnage jeu/mochi_jump/mochi_jump_1.png" id="13_no8ix"]
+[ext_resource type="Texture2D" uid="uid://cbj0bpnaukxqe" path="res://personnage jeu/moch-walk/mochicat_walk_1.png" id="14_xx5q2"]
+[ext_resource type="Texture2D" uid="uid://dr68x4iip1vb4" path="res://personnage jeu/moch-walk/mochicat_walk_2.png" id="15_uyfd6"]
+[ext_resource type="Texture2D" uid="uid://c2y6aw8qhftft" path="res://personnage jeu/moch-walk/mochicat_walk_3.png" id="16_tsud4"]
+[ext_resource type="Texture2D" uid="uid://cgnqqmxkvd1fw" path="res://personnage jeu/moch-walk/mochicat_walk_4.png" id="17_msr2o"]
+[ext_resource type="Texture2D" uid="uid://huseftgc4hqd" path="res://personnage jeu/moch-walk/mochicat_walk_5.png" id="18_cw0tm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by6l4"]
+atlas = ExtResource("12_yibwb")
+region = Rect2(0, 0, 26, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5qhb"]
+atlas = ExtResource("12_yibwb")
+region = Rect2(26, 0, 26, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_37vk8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jir8o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2g5da")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uu1kr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ut24l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1w5r4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8slye")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_u6agg")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_itjbw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_wato5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0q0u5")
+}],
+"loop": true,
+"name": &"down",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by6l4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5qhb")
+}],
+"loop": true,
+"name": &"iddle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_itjbw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_no8ix")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_xx5q2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_uyfd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_tsud4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_msr2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_cw0tm")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xut25"]
+radius = 8.0
+height = 34.0
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(7, 6)
+collision_mask = 6
+script = ExtResource("1_x50w5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(163, 284)
+sprite_frames = SubResource("SpriteFrames_37vk8")
+animation = &"attack"
+frame_progress = 0.905464
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(165, 284)
+shape = SubResource("CapsuleShape2D_xut25")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(150, 240)
