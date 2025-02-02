@@ -7,6 +7,7 @@ public partial class Player : CharacterBody2D
 {
     public const float Speed = 250.0f; // vitesse 
     public const float JumpVelocity = -250.0f; // saut 
+    public int life = 100;
     public int jump_Count = 0; //compteur des saut
     private AnimatedSprite2D charAnim;
     private AnimationPlayer animPlayer;
@@ -14,8 +15,11 @@ public partial class Player : CharacterBody2D
 
     public void Death()
     {
-        GD.Print("Le personnage est mort et sera supprimé.");
-        QueueFree();
+        if(life == 0)
+        {
+              GD.Print("Le personnage a 0 pv");
+              QueueFree();
+        }
     }
 
 
@@ -35,6 +39,7 @@ public partial class Player : CharacterBody2D
     {
         charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        Death();
     }
 
 
@@ -100,7 +105,8 @@ public partial class Player : CharacterBody2D
                 }
             }
         }
-        if (!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
+
+        if(!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
         {
             charAnim.Play("attackSauter");
             if (charAnim.FlipH == false)
@@ -124,8 +130,6 @@ public partial class Player : CharacterBody2D
             {
                 animPlayer.Play("attackGauche");
             }
-
-            isAttacking = false;
         }
 
         // Met à jour la vélocité et applique le mouvement.

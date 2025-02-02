@@ -4,41 +4,30 @@ using System;
 
 public partial class Doggy : CharacterBody2D // Assure-toi que tu utilises bien CharacterBody2D
 {
-    [Export] public int maxHealth = 100; // Santé maximale de l'ennemi
-    private int currentHealth;
-
+    [Export] public int lifeDog = 100;
     [Export] public float speed = 100f; // Vitesse de l'ennemi
     private Vector2 targetPosition; // Cible actuelle (Point A ou Point B)
     private bool movingToA = true; // Savoir si on se déplace vers A ou B
     private AnimatedSprite2D charAnim;
-
     // Référence vers les points A et B
     private Marker2D pointA;
     private Marker2D pointB;
-
     private Vector2 velocity = Vector2.Zero; // Vitesse de l'ennemi
 
 
     // Fonction appelée lorsque l'ennemi est prêt
     public override void _Ready()
     {
-        currentHealth = maxHealth;
-
         // Obtenir les positions des points A et B
         pointA = GetNode<Marker2D>("PointA");
         pointB = GetNode<Marker2D>("PointB");
-
         // Commencer en se déplaçant vers le point A
         targetPosition = pointA.Position;
-
         GD.Print("Enemy Ready. Starting at position: " + Position);
         GD.Print("Target position is: " + targetPosition);
-
         charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
     }
 
-
-    // Fonction appelée à chaque frame physique
     public override void _PhysicsProcess(double delta)
     {
         // Déplacer l'ennemi vers la cible
@@ -50,7 +39,6 @@ public partial class Doggy : CharacterBody2D // Assure-toi que tu utilises bien 
             charAnim.Play("walk");
         }
     }
-
 
     // Déplacer l'ennemi vers la cible
     private void MoveToTarget(double delta)
@@ -94,8 +82,8 @@ public partial class Doggy : CharacterBody2D // Assure-toi que tu utilises bien 
         // si le joueur entre dans cette zone le joueur meurt 
         if (body is Player player)
         {
-            player.QueueFree();
-            GD.Print("Le Joueur est mort");
+            player.life -= 10;
+            GD.Print($"Le Joueur a perdue 10hp vie restante  {player.life} ");
         }
     }
 }
