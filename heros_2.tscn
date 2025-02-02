@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3ytcp63cd2c2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qpmds"]
+size = Vector2(20, 74)
+
+[node name="Heros2" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(474, 138)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-65, -17)
+shape = SubResource("RectangleShape2D_qpmds")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
