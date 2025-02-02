@@ -8,11 +8,15 @@ public partial class Player : CharacterBody2D
 	public int jump_Count = 0; //compteur des saut
 	private AnimatedSprite2D charAnim;
 	public int Health = 100;
-
-	public override void _Ready()
+	 public HUD hud;
+	
+ public override void _Ready()
 	{
 		charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+		
 	}
+
 	public override void _PhysicsProcess(double delta)
 	{ 
 
@@ -88,20 +92,25 @@ public partial class Player : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
-	 public void TakeDamage(int amount)
-	{
-		Health -= amount;
-		charAnim.Play("Hurt"); // Assure-toi que l'animation "Hurt" existe
-		GD.Print("Le joueur a été touché ! PV restants : " + Health);
+	public void TakeDamage(int amount)
+{
+	Health -= amount;
+	charAnim.Play("Hurt");
+	GD.Print("Le joueur a été touché ! PV restants : " + Health);
 
-		if (Health <= 0)
-		{
-			GD.Print("Le joueur est mort !");
-			QueueFree(); // Supprime le joueur de la scène
-		}
-		else
-		{
-			GetTree().CreateTimer(0.5f).Timeout += () => charAnim.Play("Idle");
-		}
+	if (hud != null)
+	{
+		hud.UpdateHealth(Health);
 	}
+	else
+	{
+		GD.PrintErr("❌ Impossible de mettre à jour la barre de vie, HUD non trouvé !");
+	}
+
+	if (Health <= 0)
+	{
+		GD.Print("Le joueur est mort !");
+		QueueFree();
+	}
+}
 }

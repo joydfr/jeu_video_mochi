@@ -1,12 +1,18 @@
-[gd_scene load_steps=23 format=3 uid="uid://cei6v41pa4uvn"]
+[gd_scene load_steps=29 format=3 uid="uid://cei6v41pa4uvn"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_x50w5"]
 [ext_resource type="Texture2D" uid="uid://di7q1vqa0tkt4" path="res://personnage jeu/mochi_attack/mochi_attack_1.png" id="2_jir8o"]
+[ext_resource type="Texture2D" uid="uid://bc4vup4u1kbj0" path="res://personnage jeu/mochi_hit/mochicat_hit_1.png" id="2_pjisd"]
 [ext_resource type="Texture2D" uid="uid://dts0pohko0l28" path="res://personnage jeu/mochi_attack/mochi_attack_2.png" id="3_2g5da"]
+[ext_resource type="Texture2D" uid="uid://cfjwjtrarim66" path="res://personnage jeu/mochi_hit/mochicat_hit_2.png" id="3_rxc3n"]
+[ext_resource type="Texture2D" uid="uid://bkk8osbn26vj2" path="res://personnage jeu/mochi_hit/mochicat_hit_3.png" id="4_03tgo"]
 [ext_resource type="Texture2D" uid="uid://d2sw43xoy008a" path="res://personnage jeu/mochi_attack/mochi_attack_3.png" id="4_uu1kr"]
 [ext_resource type="Texture2D" uid="uid://cixt07hrwnljn" path="res://personnage jeu/mochi_attack/mochi_attack_4.png" id="5_ut24l"]
+[ext_resource type="Texture2D" uid="uid://kat8hmudimni" path="res://personnage jeu/mochi_hit/mochicat_hit_4.png" id="5_yb7mu"]
 [ext_resource type="Texture2D" uid="uid://do5wko6g5k8t1" path="res://personnage jeu/mochi_attack/mochi_attack_5.png" id="6_1w5r4"]
+[ext_resource type="Texture2D" uid="uid://dciuucm63beb7" path="res://personnage jeu/mochi_hit/mochicat_hit_5.png" id="6_u1mvw"]
 [ext_resource type="Texture2D" uid="uid://ccvg2a425rpie" path="res://personnage jeu/mochi_attack/mochi_attack_7.png" id="7_8slye"]
+[ext_resource type="Texture2D" uid="uid://cvknsg1pj05iw" path="res://personnage jeu/mochi_hit/mochicat_hit_6.png" id="7_kvbt1"]
 [ext_resource type="Texture2D" uid="uid://kayy0m2suut3" path="res://personnage jeu/mochi_attack/mochi_attack_6.png" id="8_u6agg"]
 [ext_resource type="Texture2D" uid="uid://cci7vwb1mi6i7" path="res://personnage jeu/mochi_jump/mochi_fall_jump.png" id="9_itjbw"]
 [ext_resource type="Texture2D" uid="uid://b4xg8jmt5lll7" path="res://personnage jeu/mochicat_crouch.png" id="10_wato5"]
@@ -29,6 +35,29 @@ region = Rect2(26, 0, 26, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_37vk8"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_pjisd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rxc3n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_03tgo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yb7mu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_u1mvw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_kvbt1")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 7.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_jir8o")
@@ -114,7 +143,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xut25"]
 radius = 8.0
-height = 34.0
+height = 22.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(7, 6)
@@ -123,13 +152,14 @@ script = ExtResource("1_x50w5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(163, 284)
+position = Vector2(168, 284)
+scale = Vector2(0.655072, 0.621739)
 sprite_frames = SubResource("SpriteFrames_37vk8")
-animation = &"attack"
-frame_progress = 0.905464
+animation = &"Hurt"
+frame_progress = 0.949087
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(165, 284)
+position = Vector2(167, 286)
 shape = SubResource("CapsuleShape2D_xut25")
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -13,9 +13,12 @@ public partial class Enemy : CharacterBody2D
 	private bool movingToA = true;
 	private bool playerWasDetected = false;
 	private bool isDead = false;
-
+	
 	// Collision pour détecter si le joueur saute sur l'ennemi
 	private Area2D deathArea;
+
+	// Timer pour gérer la suppression après l'animation
+	private Timer deathTimer;
 
 	public override void _Ready()
 	{
@@ -29,12 +32,18 @@ public partial class Enemy : CharacterBody2D
 		{
 			pointA = new Vector2(markerA.GlobalPosition.X, GlobalPosition.Y);
 			pointB = new Vector2(markerB.GlobalPosition.X, GlobalPosition.Y);
-			GD.Print($"Points de patrouille: A:{pointA}, B:{pointB}");
 		}
 
 		// Initialisation de la zone de mort (collision) avec le nom "Died"
 		deathArea = GetNode<Area2D>("Died");
 		deathArea.BodyEntered += OnPlayerJumpOnEnemy;
+
+		// Initialisation du timer pour la suppression après l'animation
+		deathTimer = new Timer();
+		deathTimer.OneShot = true;  // Il ne s'exécutera qu'une seule fois
+		deathTimer.WaitTime = 1.0f; // Durée d'attente (en secondes) avant de supprimer l'ennemi
+		AddChild(deathTimer);  // Ajouter le Timer à la scène
+		deathTimer.Timeout += OnDeathTimerTimeout; // Lier l'événement Timeout
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -57,8 +66,6 @@ public partial class Enemy : CharacterBody2D
 			{
 				float distanceToPlayer = GlobalPosition.DistanceTo(player.GlobalPosition);
 				float heightDifference = Mathf.Abs(player.GlobalPosition.Y - GlobalPosition.Y);
-
-				GD.Print($"Distance au joueur : {distanceToPlayer}, Différence de hauteur : {heightDifference}");
 
 				bool isPlayerInVerticalRange = heightDifference < 200;
 				bool isPlayerInHorizontalRange = Mathf.Abs(player.GlobalPosition.X - GlobalPosition.X) < detectionRange;
@@ -99,15 +106,20 @@ public partial class Enemy : CharacterBody2D
 		if (body is CharacterBody2D && !isDead)
 		{
 			// Vérifier que le joueur tombe sur l'ennemi (direction de la vitesse Y)
-			CharacterBody2D player = body as CharacterBody2D;
+			CharacterBody2D player = body as CharacterBody2D; 
 			if (player.Velocity.Y > 0) // Le joueur tombe
 			{
 				// L'ennemi meurt
 				isDead = true;
-				charAnim.Play("death"); // Si vous avez une animation de mort
-				GD.Print("L'ennemi est mort !");
-				QueueFree(); // Supprimer l'ennemi du jeu
+				charAnim.Play("Died"); // Si vous avez une animation de mort
+				deathTimer.Start();  // Démarrer le timer avant de supprimer l'ennemi
 			}
 		}
+	}
+
+	// Lorsque le timer expire, supprimer l'ennemi
+	private void OnDeathTimerTimeout()
+	{
+		QueueFree();  // Supprimer l'ennemi de la scène après le délai
 	}
 }
