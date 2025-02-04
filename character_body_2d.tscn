@@ -1,0 +1,107 @@
+[gd_scene load_steps=15 format=3 uid="uid://c67irtsbaqdoj"]
+
+[ext_resource type="Script" path="res://Doggy.cs" id="1_7gr81"]
+[ext_resource type="Texture2D" uid="uid://b3cjti4w51f0" path="res://Asset/BirdSprite.png" id="2_iobgl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx1lv"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2fw7"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqs6m"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cehk"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx0na"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwiys"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yjlw"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(96, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7w016"]
+atlas = ExtResource("2_iobgl")
+region = Rect2(112, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ysmi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jx1lv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2fw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqs6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cehk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx0na")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwiys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yjlw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7w016")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmbxg"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ex4dc"]
+radius = 5.09902
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fxa55"]
+radius = 5.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_7gr81")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(30, 24)
+sprite_frames = SubResource("SpriteFrames_3ysmi")
+animation = &"walk"
+frame_progress = 0.0768416
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(31, 24)
+shape = SubResource("CircleShape2D_fmbxg")
+
+[node name="PointA" type="Marker2D" parent="."]
+position = Vector2(-48, 34)
+
+[node name="PointB" type="Marker2D" parent="."]
+position = Vector2(131, 30)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(22, 0)
+
+[node name="Avant" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(18, 23)
+shape = SubResource("CircleShape2D_ex4dc")
+
+[node name="Derriere" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 23)
+shape = SubResource("CircleShape2D_fxa55")

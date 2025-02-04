@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cwlshw8nf2jtj"
+path="res://.godot/imported/MUSIQUE D'ASCENSEUR - Bruitage Gratuit.mp3-ea77109a1bf67e65107a3d49f4956c52.mp3str"
+
+[deps]
+
+source_file="res://MUSIQUE D'ASCENSEUR - Bruitage Gratuit.mp3"
+dest_files=["res://.godot/imported/MUSIQUE D'ASCENSEUR - Bruitage Gratuit.mp3-ea77109a1bf67e65107a3d49f4956c52.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

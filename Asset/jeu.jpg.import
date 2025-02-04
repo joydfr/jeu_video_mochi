@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbuuj0dbtm3b5"
-path="res://.godot/imported/set-coeurs-roses-compteurs-vie-dans-style-pixel-panneaux-vie-jeu-pixel-technologie-jeu-ancienne_647179-622.jpg-1737502f952de6f922b7a7b9e92904a3.ctex"
+uid="uid://c6wh0ackrmqb5"
+path="res://.godot/imported/jeu.jpg-80bcafc93025a4d2bf61ed3f46d3c943.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://set-coeurs-roses-compteurs-vie-dans-style-pixel-panneaux-vie-jeu-pixel-technologie-jeu-ancienne_647179-622.jpg"
-dest_files=["res://.godot/imported/set-coeurs-roses-compteurs-vie-dans-style-pixel-panneaux-vie-jeu-pixel-technologie-jeu-ancienne_647179-622.jpg-1737502f952de6f922b7a7b9e92904a3.ctex"]
+source_file="res://Asset/jeu.jpg"
+dest_files=["res://.godot/imported/jeu.jpg-80bcafc93025a4d2bf61ed3f46d3c943.ctex"]
 
 [params]
 

@@ -1,11 +1,17 @@
-[gd_scene load_steps=45 format=3 uid="uid://br8hvdbtg4p6d"]
+[gd_scene load_steps=51 format=3 uid="uid://br8hvdbtg4p6d"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_t34xy"]
+[ext_resource type="Texture2D" uid="uid://bc4vup4u1kbj0" path="res://personnage jeu/mochi_hit/mochicat_hit_1.png" id="2_crx1o"]
 [ext_resource type="Texture2D" uid="uid://8wa7up0uhn7c" path="res://Asset/mochi_attack_1.png" id="2_jnqra"]
 [ext_resource type="Texture2D" uid="uid://cdm7fln0nq65l" path="res://Asset/mochi_attack_2.png" id="3_72ure"]
+[ext_resource type="Texture2D" uid="uid://cfjwjtrarim66" path="res://personnage jeu/mochi_hit/mochicat_hit_2.png" id="3_hmkvq"]
+[ext_resource type="Texture2D" uid="uid://bkk8osbn26vj2" path="res://personnage jeu/mochi_hit/mochicat_hit_3.png" id="4_ahpel"]
 [ext_resource type="Texture2D" uid="uid://dnirm2y2tlx8l" path="res://Asset/mochi_attack_3.png" id="4_qycw1"]
 [ext_resource type="Texture2D" uid="uid://dam7dy6mmeopq" path="res://Asset/mochi_attack_4.png" id="5_42ghn"]
+[ext_resource type="Texture2D" uid="uid://kat8hmudimni" path="res://personnage jeu/mochi_hit/mochicat_hit_4.png" id="5_yaxd3"]
 [ext_resource type="Texture2D" uid="uid://c7hl86dwkgev5" path="res://Asset/mochi_attack_5.png" id="6_8h8u6"]
+[ext_resource type="Texture2D" uid="uid://dciuucm63beb7" path="res://personnage jeu/mochi_hit/mochicat_hit_5.png" id="6_bqp4o"]
+[ext_resource type="Texture2D" uid="uid://cvknsg1pj05iw" path="res://personnage jeu/mochi_hit/mochicat_hit_6.png" id="7_6ilff"]
 [ext_resource type="Texture2D" uid="uid://dhwjxuk61yoqi" path="res://Asset/mochi_attack_6.png" id="7_ogr60"]
 [ext_resource type="Texture2D" uid="uid://c24y38tiic1yi" path="res://Asset/mochi_attack_7.png" id="8_8rtni"]
 [ext_resource type="Texture2D" uid="uid://dwvdqjrk1sets" path="res://Asset/mochicat_idle_sprite.png" id="9_75itg"]
@@ -43,6 +49,29 @@ region = Rect2(26, 0, 26, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g21tf"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_crx1o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hmkvq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ahpel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yaxd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bqp4o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6ilff")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 9.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_jnqra")
@@ -278,6 +307,7 @@ texture_filter = 1
 position = Vector2(3, 0)
 sprite_frames = SubResource("SpriteFrames_g21tf")
 animation = &"attackSauter"
+frame_progress = 0.219175
 script = ExtResource("17_um8gq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

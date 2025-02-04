@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc52xlhwmrg4k"]
+
+[ext_resource type="Script" path="res://MenuPrincipal.cs" id="1_1xfvr"]
+[ext_resource type="Texture2D" uid="uid://smb3co3h56b7" path="res://Asset/mochi_menu_art2.png" id="2_vtkwx"]
+
+[node name="MenuPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1xfvr")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 801.0
+offset_bottom = 649.0
+texture = ExtResource("2_vtkwx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -77.0
+offset_top = -184.0
+offset_right = 72.0
+offset_bottom = -102.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Commencer le Jeu"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quitter le Jeu"
+
+[connection signal="button_down" from="VBoxContainer/Start" to="." method="Play"]
+[connection signal="button_down" from="VBoxContainer/Exit" to="." method="Exit"]

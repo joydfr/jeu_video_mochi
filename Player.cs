@@ -1,42 +1,46 @@
-
 using Godot;
 using System;
 
+
 public partial class Player : CharacterBody2D
 {
-
     public const float Speed = 250.0f; // vitesse 
     public const float JumpVelocity = -250.0f; // saut 
     public int life = 100;
     public int jump_Count = 0; //compteur des saut
-    private AnimatedSprite2D charAnim;
+    private AnimatedSprite2D Animation;
     private AnimationPlayer animPlayer;
-
-
-
-	// Timer pour gérer la suppression après l'animation
-
-
-    public void Death()
-    {
-        if(life == 0)
-        {
-              GD.Print("Le personnage a 0 pv");
-              QueueFree();
-        }
-    }
+    private Lifebar lifebar;
 
     public override void _Ready()
     {
-        charAnim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        Animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        Death();
+        lifebar = GetNode<Lifebar>("../CanvasLayer/HUD");
+        if (lifebar != null)
+        {
+            lifebar.MaxValue = life;
+            lifebar.Value = life;
+
+        }
     }
 
-	
-        public override void _PhysicsProcess(double delta)
+    public void AttaqueGriffe(Node body)
+    {
+        if (body is Doggy doggy)
+        {
+            doggy.QueueFree();
+        }
+        if (body is Enemy enemy)
+        {
+            enemy.QueueFree();
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
     {
         Vector2 velocity = Velocity;
+
 
         // La gravité si le personnage est dans les air
         if (!IsOnFloor())
@@ -50,7 +54,7 @@ public partial class Player : CharacterBody2D
             velocity.Y = JumpVelocity;
             jump_Count++;
             //Animation jump
-            charAnim.Play("jump");
+            Animation.Play("jump");
         }
         // Réinitialiser le compteur de sauts si le personnage touche le sol
         if (IsOnFloor())
@@ -61,8 +65,9 @@ public partial class Player : CharacterBody2D
         // Flip l'animation selon la direction (gauche/droite).
         if (velocity.X != 0)
         {
-            charAnim.FlipH = velocity.X < 0; // Inverser l'animation si on va à gauche
+            Animation.FlipH = velocity.X < 0; // Inverser l'animation si on va à gauche
         }
+
 
 
         // la direction du personnage 
@@ -71,7 +76,7 @@ public partial class Player : CharacterBody2D
            Input.GetActionStrength("ui_down") - Input.GetActionStrength("ui_up")
        );
         bool isAttacking = true;
-        isAttacking = charAnim.Animation == "attack";
+        isAttacking = Animation.Animation == "attack";
 
         // Si le personnage n'est pas en train d'attaquer
         if (!isAttacking)
@@ -80,9 +85,12 @@ public partial class Player : CharacterBody2D
             {
                 // Ajuster la vitesse en X et Y pour le mouvement
                 velocity.X = direction.X * Speed;
-
+                if (IsOnFloor())
+                {
+                    Animation.Play("walk");
+                }
                 // la marche 
-                charAnim.Play("walk");
+
             }
             else
             {
@@ -92,14 +100,18 @@ public partial class Player : CharacterBody2D
                 // si le personnage est a l'arret lance l'animation iddle 
                 if (IsOnFloor() && velocity.X == 0 && velocity.Y == 0)
                 {
-                    charAnim.Play("idle");
+                    Animation.Play("idle");
                 }
             }
         }
+        // attaque sauter
         if (!IsOnFloor() && Input.IsActionJustPressed("attaqueSauter"))
         {
-            charAnim.Play("attackSauter");
-            if (charAnim.FlipH == false)
+            var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+            sprite.Stop();
+            Animation.Play("attackSauter");
+
+            if (Animation.FlipH == false)
             {
                 GetNode<AnimationPlayer>("AnimationPlayer").Play("attaqueSauter");
             }
@@ -107,12 +119,13 @@ public partial class Player : CharacterBody2D
             {
                 GetNode<AnimationPlayer>("AnimationPlayer").Play("ReverseSauter");
             }
+            sprite.Play();
         }
-        // l'attaque 
+        // l'attaque
         if (Input.IsActionJustPressed("attack"))
         {
-            charAnim.Play("attack");
-            if (charAnim.FlipH == false)
+            Animation.Play("attack");
+            if (Animation.FlipH == false)
             {
                 animPlayer.Play("attack");
             }
@@ -128,6 +141,21 @@ public partial class Player : CharacterBody2D
         Velocity = velocity;
         MoveAndSlide();
     }
+
+    public void TakeDamage(int degat)
+    {
+        life -= degat;
+        Animation.Play("Hurt");
+        GD.Print("Le joueur a été touché ! PV restants : " + life);
+
+        if (lifebar != null)
+        {
+            lifebar.UpdateHealth(life);
+        }
+        if (life <= 0)
+        {
+            GD.Print("Le joueur est mort !");
+            QueueFree();
+        }
     }
-
-
+}
